@@ -1,112 +1,60 @@
-import { query } from "../config/db.js";
+import db from "../config/db.js";
 
 const userModel = {
-  selectAll: () => {
-    return new Promise((resolve, reject) => {
-      query("SELECT * FROM users", (err, res) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(res);
-      });
-    });
+  getAllUsers: function () {
+    try {
+      return db.query("SELECT * FROM users");
+    } catch (err) {
+      console.log(err.message);
+    }
   },
 
-  selectPaginate: () => {
-    return new Promise((resolve, reject) => {
-      query("SELECT COUNT (*) AS total FROM users", (err, res) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(res);
-      });
-    });
-  },
-
-  pagination: (limit, offset) => {
-    return new Promise((resolve, reject) => {
-      query(
-        `SELECT * FROM users LIMIT ${limit} OFFSET ${offset}`,
-        (err, res) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(res);
-        }
-      );
-    });
-  },
-
-  insertData: ({
+  postUsers: function (
     name,
     email_address,
     phone_number,
     create_new_password,
-    verify_password,
-    level,
-  }) => {
-    return new Promise((resolve, reject) => {
-      query(
-        `INSERT INTO users(name, email_address, phone_number, create_new_password, verify_password, level) VALUES
-          ('${name}', '${email_address}', '${phone_number}', '${create_new_password}', '${verify_password}', ${level})`,
-        (err, res) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(res);
-        }
+    verify_password
+  ) {
+    try {
+      return db.query(
+        `INSERT INTO users (name, email_address, phone_number, create_new_password, verify_password)
+         VALUES ('${name}', '${email_address}', '${phone_number}', '${create_new_password}', '${verify_password}')`
       );
-    });
+    } catch (err) {
+      console.log(err.message);
+    }
   },
 
-  loginUser: (email_address) => {
-    return new Promise((resolve, reject) => {
-      query(
-        `SELECT * FROM users WHERE email_address = '${email_address}'`,
-        (err, res) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(res);
-        }
+  updateUsers: function (
+    users_id,
+    name,
+    email_address,
+    phone_number,
+    create_new_password,
+    verify_password
+  ) {
+    try {
+      return db.query(
+        `UPDATE users SET 
+        name='${name}', 
+        email_address='${email_address}', 
+        phone_number='${phone_number}', 
+        create_new_password='${create_new_password}', 
+        verify_password='${verify_password}' 
+        WHERE users_id=${users_id}`
       );
-    });
+    } catch (err) {
+      console.log(err.message);
+    }
   },
 
-  updateProfile: ({ id, name, image }) => {
-    return new Promise((resolve, reject) => {
-      query(
-        `UPDATE users SET name='${name}', image = '${image}' WHERE id=${id}`,
-        (err, res) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(res);
-        }
-      );
-    });
-  },
-
-  selectByID: (id) => {
-    return new Promise((resolve, reject) => {
-      query(`SELECT * FROM users WHERE id = ${id}`, (err, result) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(result);
-      });
-    });
-  },
-
-  destroyData: (id) => {
-    return new Promise((resolve, reject) => {
-      query(`DELETE FROM users  WHERE id=${id}`, (err, res) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(res);
-      });
-    });
+  deleteUsers: function (users_id) {
+    try {
+      return db.query(`DELETE from users WHERE users_id=${users_id}`);
+    } catch (err) {
+      console.log(err.message);
+    }
   },
 };
 
