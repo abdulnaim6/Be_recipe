@@ -1,4 +1,6 @@
 import model from "../model/user.model.js";
+import bcrypt from "bcrypt";
+import generateToken from "../helper/jwt.js";
 
 const userController = {
   listUser: async function (req, res) {
@@ -25,13 +27,18 @@ const userController = {
         create_new_password,
         verify_password,
       } = req.body;
+
+      // Hash the password using bcrypt
+      const hashedPassword = await bcrypt.hash(create_new_password, 10);
+
       const result = await model.postUsers(
         name,
         email_address,
         phone_number,
-        create_new_password,
-        verify_password
+        hashedPassword,
+        hashedPassword
       );
+
       res.status(201).json({
         message: "Create user success",
         data: result,
@@ -101,6 +108,57 @@ const userController = {
       res.status(500).json({
         message: "Internal Server Error",
       });
+    }
+  },
+
+  loginUser: async (req, res) => {
+    try {
+      const { email_address, verify_password } = req.body;
+      const result = await model.postLogin(email_address);
+
+      console.log("Result from postLogin:", result.rows);
+
+      if (result.rowCount > 0) {
+        const hashedPasswordFromDatabase = result.rows[0].verify_password;
+        console.log(
+          "Hashed password from database:",
+          hashedPasswordFromDatabase
+        );
+
+        const isPasswordValid = await bcrypt.compare(
+          verify_password,
+          hashedPasswordFromDatabase
+        );
+
+        console.log("Is password valid?", isPasswordValid);
+
+        const user = result.rows[0];
+
+        if (isPasswordValid) {
+          const token = await generateToken({
+            user: user,
+          });
+
+          console.log("Generated token:", token);
+
+          return res.status(200).json({
+            message: "Login successful",
+            token: token,
+            data: user,
+          });
+        } else {
+          console.log("Invalid password");
+          res.status(401).json({ message: "Invalid password" });
+        }
+      } else {
+        console.log("Invalid email");
+        res.status(401).json({ message: "Invalid email" });
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      res
+        .status(500)
+        .json({ error, message: "An error occurred during login" });
     }
   },
 };

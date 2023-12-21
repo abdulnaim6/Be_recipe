@@ -1,4 +1,6 @@
+import recipeModel from "../model/recipe.model.js";
 import model from "../model/recipe.model.js";
+import cloudinary from "../helper/cloudinary.js";
 
 const recipeController = {
   listRecipe: async function (req, res) {
@@ -20,10 +22,13 @@ const recipeController = {
 
   createRecipe: async function (req, res) {
     try {
-      const { name_food, picture, ingrediens, video, comment } = req.body;
+      const { name_food, ingrediens, video, comment } = req.body;
+      const picture = await cloudinary.uploader.upload(req.file.path);
+      const imageUrl = picture.url;
+      console.log(picture);
       const result = await model.postRecipe(
         name_food,
-        picture,
+        imageUrl,
         ingrediens,
         video,
         comment
@@ -43,12 +48,14 @@ const recipeController = {
   updateRecipe: async function (req, res) {
     try {
       const { recipe_id } = req.params;
-      const { name_food, picture, ingrediens, video, comment } = req.body;
-
+      const { name_food, ingrediens, video, comment } = req.body;
+      const picture = await cloudinary.uploader.upload(req.file.path);
+      const imageUrl = picture.url;
+      console.log(picture);
       const result = await model.updateRecipes(
         recipe_id,
         name_food,
-        picture,
+        imageUrl,
         ingrediens,
         video,
         comment
@@ -104,6 +111,38 @@ const recipeController = {
       .catch((err) => {
         res.json({ message: err.message });
       });
+  },
+
+  pagination: async (req, res) => {
+    try {
+      const { limit, page } = req.query;
+      const pageValue = page ? Number(page) : 1;
+      const limitValue = limit ? Number(limit) : 2;
+      const offsetValue = pageValue === 1 ? 0 : (pageValue - 1) * limitValue;
+
+      // Total data
+      const allData = await Model.selectPaginate();
+      const totalData = Number(allData.rows[0].total);
+
+      // Data untuk halaman saat ini
+      const result = await Model.paginations(limitValue, offsetValue);
+
+      const pagination = {
+        currentPage: pageValue,
+        dataPerPage: limitValue,
+        totalPage: Math.ceil(totalData / limitValue),
+        totalData,
+        result,
+      };
+
+      res.json({
+        message: "OK",
+        result: pagination,
+      });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
   },
 };
 

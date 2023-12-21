@@ -56,6 +56,20 @@ const userModel = {
       console.log(err.message);
     }
   },
+
+  postLogin: (email_address) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT * FROM users WHERE email_address = '${email_address}'`,
+        (err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
+        }
+      );
+    });
+  },
 };
 
 export default userModel;

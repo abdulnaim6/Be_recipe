@@ -77,6 +77,32 @@ const recipeModel = {
       });
     });
   },
+
+  selectPaginate: () => {
+    return new Promise((resolve, reject) => {
+      db.query("SELECT COUNT (*) AS total FROM detail_recipe", (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res);
+      });
+    });
+  },
+
+  paginations: (limit, offset) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "SELECT * FROM detail_recipe LIMIT $1 OFFSET $2",
+        [limit, offset],
+        (err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
+        }
+      );
+    });
+  },
 };
 
 export default recipeModel;

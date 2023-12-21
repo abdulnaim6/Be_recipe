@@ -2,10 +2,14 @@ import express from "express";
 import bodyParser from "body-parser";
 import router from "./src/router/user.router.js";
 import reciperouter from "./src/router/recipe.router.js";
+import cors from "cors";
+
 const app = express();
 const port = 3000;
+app.use(express.static("public"));
 app.use(express.json());
 app.use(router);
+app.use(cors());
 app.use(reciperouter);
 app.use(bodyParser.json());
 
