@@ -54,7 +54,7 @@ CLOUDINARY_API_SECRET=
 Clone the project
 
 ```bash
-  git clone https://github.com/abdulnaim6/be-recipe
+  git clone https://github.com/abdulnaim6/Be-recipe
 ```
 
 Go to the project directory
