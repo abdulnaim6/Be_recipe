@@ -1,6 +1,7 @@
 import model from "../model/user.model.js";
 import bcrypt from "bcrypt";
 import generateToken from "../helper/jwt.js";
+import redis from "../config/redis.js";
 
 const userController = {
   listUser: async function (req, res) {
@@ -160,6 +161,68 @@ const userController = {
         .status(500)
         .json({ error, message: "An error occurred during login" });
     }
+  },
+
+  getByID: async (req, res) => {
+    try {
+      const id = req.params.users_id;
+      const result = await model.selectByID(id);
+      res.send({
+        data: result.rows,
+      });
+    } catch (err) {
+      res.json({ message: err.message });
+    }
+  },
+  getRedisID: async (req, res) => {
+    try {
+      const id = req.params.users_id;
+      const result = await model.selectByID(id);
+
+      await redis.set(`getFromRedis/${id}`, JSON.stringify(result), {
+        EX: 180,
+        NX: true,
+      });
+
+      res.send({
+        fromCache: false,
+        data: result.rows,
+      });
+    } catch (err) {
+      res.json({ message: err.message });
+    }
+  },
+
+  pagination: async (req, res) => {
+    const { limit, page } = req.query;
+    const pageValue = page ? Number(page) : 1;
+    const limitValue = limit ? Number(limit) : 2;
+    const offsetValue = pageValue === 1 ? 0 : (pageValue - 1) * limitValue;
+
+    // total page
+    const allData = await model.selectPaginate();
+    console.log(allData);
+    const totalData = Number(allData.rows[0].total);
+
+    model
+      .pagination(limitValue, offsetValue)
+      .then((result) => {
+        console.log(result);
+        const pagination = {
+          currentPage: pageValue,
+          dataperPage: limitValue,
+          totalPage: Math.ceil(totalData / limitValue),
+          totalData,
+          result,
+        };
+        res.json({
+          message: "OK",
+          result: pagination,
+        });
+      })
+      .catch((err) => {
+        res.json({ message: err.message });
+      });
   },
 };
 

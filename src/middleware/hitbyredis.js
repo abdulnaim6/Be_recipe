@@ -1,4 +1,4 @@
-import client from "../config/redis";
+import client from "../config/redis.js";
 
 const hitbyID = async (req, res, next) => {
   const idUser = req.params.users_id;

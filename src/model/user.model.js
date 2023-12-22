@@ -70,6 +70,45 @@ const userModel = {
       );
     });
   },
+
+  selectPaginate: () => {
+    return new Promise((resolve, reject) => {
+      db.query("SELECT COUNT (*) AS total FROM users", (err, res) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(res);
+      });
+    });
+  },
+
+  pagination: (limit, offset) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT * FROM users LIMIT ${limit} OFFSET ${offset}`,
+        (err, res) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(res);
+        }
+      );
+    });
+  },
+
+  selectByID: (users_id) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT * FROM users WHERE users_id= ${users_id}`,
+        (err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
+        }
+      );
+    });
+  },
 };
 
 export default userModel;
