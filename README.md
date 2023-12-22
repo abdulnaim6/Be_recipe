@@ -60,7 +60,7 @@ Clone the project
 Go to the project directory
 
 ```bash
-  cd Be-recipe
+  cd Be_recipe
 ```
 
 Install dependencies
