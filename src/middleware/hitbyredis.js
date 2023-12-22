@@ -20,6 +20,4 @@ const hitbyID = async (req, res, next) => {
   }
 };
 
-export default {
-  hitbyID,
-};
+export default hitbyID;

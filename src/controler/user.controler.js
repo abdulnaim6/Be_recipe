@@ -178,12 +178,10 @@ const userController = {
     try {
       const id = req.params.users_id;
       const result = await model.selectByID(id);
-
       await redis.set(`getFromRedis/${id}`, JSON.stringify(result), {
         EX: 180,
         NX: true,
       });
-
       res.send({
         fromCache: false,
         data: result.rows,

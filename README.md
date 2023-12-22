@@ -1,7 +1,10 @@
+<div align="center">
+ <img height="150" width="250" src="public\barbecue 1 (1).png"  />
+</div>
 
 # Mama recipe Backend Application
 
-Mamarecipe was created for food lovers or people who are just learning to cook and are also looking for new recipes, where on Mama Recipe's website there are various kinds of food recipes as well as videos from that food. 
+Mamarecipe was created for food lovers or people who are just learning to cook and are also looking for new recipes, where on Mama Recipe's website there are various kinds of food recipes as well as videos from that food.
 
 <br />
 
@@ -77,12 +80,10 @@ Start the project
 
 ## Postman
 
-
-
 ## Authors
-💻 [Abdul Naim](https://github.com/abdulnaim6) 
+
+💻 [Abdul Naim](https://github.com/abdulnaim6)
 
 <br />
 
 ## Related Project
-
