@@ -87,4 +87,8 @@ Start the project
 <br />
 
 ## Related Project
-[Responsive Web](https://github.com/abdulnaim6/Responsive_web)
+⚡[`Responsive Web`](https://github.com/abdulnaim6/Responsive_web)⚡
+
+⚡[`Backend Recipe`](https://github.com/abdulnaim6/Be_recipe)⚡
+
+⚡[`Frontend Recipe`](https://github.com/abdulnaim6/Fe_recipe)⚡
