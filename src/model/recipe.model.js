@@ -17,34 +17,53 @@ const recipeModel = {
     }
   },
 
-  postRecipe: function (name_food, picture, ingrediens, video, comment) {
+  // postRecipe: function (name_food, picture, ingrediens, video) {
+  //   try {
+  //     return db.query(
+  //       `INSERT INTO detail_recipe (name_food, picture, ingrediens, video)
+  //        VALUES ('${name_food}', '${picture}', '${ingrediens}', '${video}')`
+  //     );
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // },
+  postRecipe: function (name_food, picture, ingrediens, video) {
     try {
       return db.query(
-        `INSERT INTO detail_recipe (name_food, picture, ingrediens, video, comment)
-         VALUES ('${name_food}', '${picture}', '${ingrediens}', '${video}', '${comment}')`
+        `INSERT INTO detail_recipe (name_food, picture, ingrediens, video)
+         VALUES ($1, $2, $3, $4)`,
+        [name_food, picture, ingrediens, video]
       );
     } catch (err) {
       console.log(err.message);
     }
   },
 
-  updateRecipes: function (
-    recipe_id,
-    name_food,
-    picture,
-    ingrediens,
-    video,
-    comment
-  ) {
+  // updateRecipes: function (recipe_id, name_food, picture, ingrediens, video) {
+  //   try {
+  //     return db.query(
+  //       `UPDATE detail_recipe SET
+  //       name_food='${name_food}',
+  //       picture='${picture}',
+  //       ingrediens='${ingrediens}',
+  //       video='${video}'
+  //       WHERE recipe_id=${recipe_id}`
+  //     );
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // },
+
+  updateRecipes: function (recipe_id, name_food, picture, ingrediens, video) {
     try {
       return db.query(
         `UPDATE detail_recipe SET 
-        name_food='${name_food}', 
-        picture='${picture}', 
-        ingrediens='${ingrediens}', 
-        video='${video}', 
-        comment='${comment}' 
-        WHERE recipe_id=${recipe_id}`
+        name_food=$1, 
+        picture=$2, 
+        ingrediens=$3, 
+        video=$4
+        WHERE recipe_id=$5`,
+        [name_food, picture, ingrediens, video, recipe_id]
       );
     } catch (err) {
       console.log(err.message);
@@ -99,6 +118,20 @@ const recipeModel = {
             reject(err);
           }
           resolve(res);
+        }
+      );
+    });
+  },
+
+  selectByID: (recipe_id) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT * FROM detail_recipe WHERE recipe_id= ${recipe_id}`,
+        (err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
         }
       );
     });

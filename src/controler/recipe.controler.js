@@ -22,7 +22,7 @@ const recipeController = {
 
   createRecipe: async function (req, res) {
     try {
-      const { name_food, ingrediens, video, comment } = req.body;
+      const { name_food, ingrediens, video } = req.body;
       const picture = await cloudinary.uploader.upload(req.file.path);
       const imageUrl = picture.url;
       console.log(picture);
@@ -30,8 +30,7 @@ const recipeController = {
         name_food,
         imageUrl,
         ingrediens,
-        video,
-        comment
+        video
       );
       res.status(201).json({
         message: "Create recipe success",
@@ -48,7 +47,7 @@ const recipeController = {
   updateRecipe: async function (req, res) {
     try {
       const { recipe_id } = req.params;
-      const { name_food, ingrediens, video, comment } = req.body;
+      const { name_food, ingrediens, video } = req.body;
       const picture = await cloudinary.uploader.upload(req.file.path);
       const imageUrl = picture.url;
       console.log(picture);
@@ -57,10 +56,8 @@ const recipeController = {
         name_food,
         imageUrl,
         ingrediens,
-        video,
-        comment
+        video
       );
-
       if (result) {
         res.status(200).json({
           message: "Update recipe success",
@@ -142,6 +139,18 @@ const recipeController = {
     } catch (err) {
       console.error(err.message);
       res.status(500).json({ message: "Internal Server Error" });
+    }
+  },
+
+  getByID: async (req, res) => {
+    try {
+      const id = req.params.recipe_id;
+      const result = await model.selectByID(id);
+      res.send({
+        data: result.rows,
+      });
+    } catch (err) {
+      res.json({ message: err.message });
     }
   },
 };
