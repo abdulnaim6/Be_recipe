@@ -5,7 +5,7 @@ import reciperouter from "./src/router/recipe.router.js";
 import cors from "cors";
 
 const app = express();
-const port = 3004;
+const port = process.env.PORT || 3004;
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
