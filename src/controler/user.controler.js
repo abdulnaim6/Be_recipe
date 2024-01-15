@@ -2,6 +2,7 @@ import model from "../model/user.model.js";
 import bcrypt from "bcrypt";
 import generateToken from "../helper/jwt.js";
 import redis from "../config/redis.js";
+import cloudinary from "../helper/cloudinary.js";
 
 const userController = {
   listUser: async function (req, res) {
@@ -21,21 +22,15 @@ const userController = {
 
   createUser: async function (req, res) {
     try {
-      const {
-        name,
-        email_address,
-        phone_number,
-        create_new_password,
-        verify_password,
-      } = req.body;
+      const { name, email_address, phone, password } = req.body;
 
       // Hash the password using bcrypt
-      const hashedPassword = await bcrypt.hash(create_new_password, 10);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
       const result = await model.postUsers(
         name,
         email_address,
-        phone_number,
+        phone,
         hashedPassword,
         hashedPassword
       );
@@ -52,25 +47,46 @@ const userController = {
     }
   },
 
+  // updateUser: async function (req, res) {
+  //   try {
+  //     const { users_id } = req.params;
+  //     const { name } = req.body;
+  //     const picture = await cloudinary.uploader.upload(req.file.path);
+  //     const imageUrl = picture.url;
+  //     console.log(picture);
+  //     const result = await model.updateUsers(users_id, name, imageUrl);
+  //     if (result) {
+  //       res.status(200).json({
+  //         message: "Update user success",
+  //         data: result,
+  //       });
+  //     } else {
+  //       res.status(404).json({
+  //         message: "User not found",
+  //       });
+  //     }
+  //   } catch (err) {
+  //     console.error("Update users failed", err);
+  //     res.status(500).json({
+  //       message: "Internal Server Error",
+  //     });
+  //   }
+  // },
+
   updateUser: async function (req, res) {
     try {
       const { users_id } = req.params;
-      const {
-        name,
-        email_address,
-        phone_number,
-        create_new_password,
-        verify_password,
-      } = req.body;
+      const { name } = req.body;
+      if (!req.file) {
+        return res.status(400).json({
+          message: "No file uploaded",
+        });
+      }
+      const picture = await cloudinary.uploader.upload(req.file.path);
+      const imageUrl = picture.url;
+      console.log(picture);
 
-      const result = await model.updateUsers(
-        users_id,
-        name,
-        email_address,
-        phone_number,
-        create_new_password,
-        verify_password
-      );
+      const result = await model.updateUsers(users_id, name, imageUrl);
 
       if (result) {
         res.status(200).json({
@@ -83,7 +99,7 @@ const userController = {
         });
       }
     } catch (err) {
-      console.error("Update user failed", err);
+      console.error("Update users failed", err);
       res.status(500).json({
         message: "Internal Server Error",
       });

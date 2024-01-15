@@ -1,4 +1,3 @@
-import recipeModel from "../model/recipe.model.js";
 import model from "../model/recipe.model.js";
 import cloudinary from "../helper/cloudinary.js";
 
@@ -118,11 +117,11 @@ const recipeController = {
       const offsetValue = pageValue === 1 ? 0 : (pageValue - 1) * limitValue;
 
       // Total data
-      const allData = await Model.selectPaginate();
+      const allData = await model.selectPaginate();
       const totalData = Number(allData.rows[0].total);
 
       // Data untuk halaman saat ini
-      const result = await Model.paginations(limitValue, offsetValue);
+      const result = await model.paginations(limitValue, offsetValue);
 
       const pagination = {
         currentPage: pageValue,

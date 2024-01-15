@@ -27,7 +27,7 @@ const Multerupload = (req, res, next) => {
     storage: storage,
     fileFilter: fileFilter,
     limits: {
-      fileSize: 3 * 1024 * 1024,
+      fileSize: 4 * 1024 * 1024,
     },
   }).single("picture");
 
