@@ -127,9 +127,14 @@ const userController = {
         res.status(400).json({ message: "Invalid email " });
       }
     } catch (error) {
-      res
-        .status(500)
-        .json({ error, message: "An error occurred during login" });
+      // res
+      //   .status(500)
+      //   .json({ error, message: "An error occurred during login" });
+      console.error("Login error:", error);
+      res.status(500).json({
+        error: error.message,
+        message: "An error occurred during login",
+      });
     }
   },
 

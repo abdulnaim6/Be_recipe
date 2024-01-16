@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 dotenv.config();
 
-const tokenData = process.env.JWT_SECRET;
+const tokenData = process.env.VERCEL_JWT_SECRET;
 
 const generateToken = async (payload) => {
   const token = await jwt.sign(payload, tokenData, {
