@@ -23,8 +23,6 @@ const userController = {
   createUser: async function (req, res) {
     try {
       const { name, email_address, phone, password } = req.body;
-
-      // Hash the password using bcrypt
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const result = await model.postUsers(
@@ -46,32 +44,6 @@ const userController = {
       });
     }
   },
-
-  // updateUser: async function (req, res) {
-  //   try {
-  //     const { users_id } = req.params;
-  //     const { name } = req.body;
-  //     const picture = await cloudinary.uploader.upload(req.file.path);
-  //     const imageUrl = picture.url;
-  //     console.log(picture);
-  //     const result = await model.updateUsers(users_id, name, imageUrl);
-  //     if (result) {
-  //       res.status(200).json({
-  //         message: "Update user success",
-  //         data: result,
-  //       });
-  //     } else {
-  //       res.status(404).json({
-  //         message: "User not found",
-  //       });
-  //     }
-  //   } catch (err) {
-  //     console.error("Update users failed", err);
-  //     res.status(500).json({
-  //       message: "Internal Server Error",
-  //     });
-  //   }
-  // },
 
   updateUser: async function (req, res) {
     try {
@@ -132,47 +104,29 @@ const userController = {
     try {
       const { email_address, verify_password } = req.body;
       const result = await model.postLogin(email_address);
-
-      console.log("Result from postLogin:", result.rows);
-
       if (result.rowCount > 0) {
-        const hashedPasswordFromDatabase = result.rows[0].verify_password;
-        console.log(
-          "Hashed password from database:",
-          hashedPasswordFromDatabase
-        );
-
-        const isPasswordValid = await bcrypt.compare(
+        const verify_passwordHash = result.rows[0].verify_password;
+        const PasswordValid = await bcrypt.compare(
           verify_password,
-          hashedPasswordFromDatabase
+          verify_passwordHash
         );
-
-        console.log("Is password valid?", isPasswordValid);
-
         const user = result.rows[0];
-
-        if (isPasswordValid) {
+        if (PasswordValid) {
           const token = await generateToken({
-            user: user,
+            users: user,
           });
-
-          console.log("Generated token:", token);
-
           return res.status(200).json({
             message: "Login successful",
             token: token,
             data: user,
           });
         } else {
-          console.log("Invalid password");
-          res.status(401).json({ message: "Invalid password" });
+          res.status(400).json({ message: "Invalid password " });
         }
       } else {
-        console.log("Invalid email");
-        res.status(401).json({ message: "Invalid email" });
+        res.status(400).json({ message: "Invalid email " });
       }
     } catch (error) {
-      console.error("Login error:", error);
       res
         .status(500)
         .json({ error, message: "An error occurred during login" });
