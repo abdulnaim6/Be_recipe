@@ -2,11 +2,11 @@ import pg from "pg";
 import "dotenv/config";
 
 const db = new pg.Pool({
-  host: process.env.HOST,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  database: process.env.DB,
-  port: process.env.PORT || 5432,
+  host: process.env.VERCEL_HOST,
+  user: process.env.VERCEL_USER,
+  password: process.env.VERCEL_PASSWORD,
+  database: process.env.VERCEL_DB,
+  port: process.env.VERCEL_PORT || 5432,
 });
 
 db.connect()
