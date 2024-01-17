@@ -1,7 +1,7 @@
 import model from "../model/user.model.js";
 import bcrypt from "bcrypt";
 import generateToken from "../helper/jwt.js";
-import redis from "../config/redis.js";
+// import redis from "../config/redis.js";
 import cloudinary from "../helper/cloudinary.js";
 
 const userController = {
@@ -140,33 +140,33 @@ const userController = {
     }
   },
 
-  getByID: async (req, res) => {
-    try {
-      const id = req.params.users_id;
-      const result = await model.selectByID(id);
-      res.send({
-        data: result.rows,
-      });
-    } catch (err) {
-      res.json({ message: err.message });
-    }
-  },
-  getRedisID: async (req, res) => {
-    try {
-      const id = req.params.users_id;
-      const result = await model.selectByID(id);
-      await redis.set(`getFromRedis/${id}`, JSON.stringify(result), {
-        EX: 180,
-        NX: true,
-      });
-      res.send({
-        fromCache: false,
-        data: result.rows,
-      });
-    } catch (err) {
-      res.json({ message: err.message });
-    }
-  },
+  // getByID: async (req, res) => {
+  //   try {
+  //     const id = req.params.users_id;
+  //     const result = await model.selectByID(id);
+  //     res.send({
+  //       data: result.rows,
+  //     });
+  //   } catch (err) {
+  //     res.json({ message: err.message });
+  //   }
+  // },
+  // getRedisID: async (req, res) => {
+  //   try {
+  //     const id = req.params.users_id;
+  //     const result = await model.selectByID(id);
+  //     await redis.set(`getFromRedis/${id}`, JSON.stringify(result), {
+  //       EX: 180,
+  //       NX: true,
+  //     });
+  //     res.send({
+  //       fromCache: false,
+  //       data: result.rows,
+  //     });
+  //   } catch (err) {
+  //     res.json({ message: err.message });
+  //   }
+  // },
 
   pagination: async (req, res) => {
     const { limit, page } = req.query;
