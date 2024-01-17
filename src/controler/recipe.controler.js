@@ -6,10 +6,10 @@ const recipeController = {
     try {
       const { query } = req;
       const order = query.order || "ASC"; // Default order is ASC
-      const { rows } = await model.getAllRecipe(order);
+      const result = await model.getAllRecipe(order);
       res.status(200).json({
         message: "Get All Recipe Success",
-        data: rows,
+        data: result,
       });
     } catch (err) {
       console.error("Get Recipe Failed", err);
@@ -101,8 +101,8 @@ const recipeController = {
     const { keyword, sort } = req.query;
     model
       .searchByName(keyword, sort)
-      .then(({ rows }) => {
-        res.json(rows);
+      .then((result) => {
+        res.json(result);
       })
       .catch((err) => {
         res.json({ message: err.message });
