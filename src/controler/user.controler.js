@@ -48,30 +48,32 @@ const userController = {
   updateUser: async function (req, res) {
     try {
       const { users_id } = req.params;
-      const { name } = req.body;
-      if (!req.file) {
-        return res.status(400).json({
-          message: "No file uploaded",
-        });
+      const { rowCount } = await model.selectByID(users_id);
+      console.log(rowCount);
+      if (!rowCount) {
+        return res.json({ message: "data not found" });
       }
+      const { name } = req.body;
       const picture = await cloudinary.uploader.upload(req.file.path);
-      const imageUrl = picture.url;
+      // const imageUrl = picture.url;
       console.log(picture);
-
-      const result = await model.updateUsers(users_id, name, imageUrl);
-
+      const result = await model.updateUsers({
+        users_id,
+        name,
+        picture: picture.url,
+      });
       if (result) {
         res.status(200).json({
-          message: "Update user success",
+          message: "Update recipe success",
           data: result,
         });
       } else {
         res.status(404).json({
-          message: "User not found",
+          message: "Recipe not found",
         });
       }
     } catch (err) {
-      console.error("Update users failed", err);
+      console.error("Update recipe failed", err);
       res.status(500).json({
         message: "Internal Server Error",
       });
