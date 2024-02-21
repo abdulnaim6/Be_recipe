@@ -93,3 +93,5 @@ Start the project
 ⚡[`Backend Recipe`](https://github.com/abdulnaim6/Be_recipe)⚡
 
 ⚡[`Frontend Recipe`](https://github.com/abdulnaim6/Fe_recipe)⚡
+
+⚡[`Demo Mama Recipe`](https://fe-recipe-sigma.vercel.app/)⚡
