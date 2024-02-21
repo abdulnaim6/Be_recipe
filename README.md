@@ -79,6 +79,7 @@ Start the project
 ```
 
 ## Postman
+⚡[`Postman`](https://documenter.getpostman.com/view/28175511/2sA2r9X3s6)⚡
 
 ## Authors
 
