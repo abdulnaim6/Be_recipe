@@ -79,6 +79,7 @@ Start the project
 ```
 
 ## Postman
+⚡[`Postman`](https://documenter.getpostman.com/view/28175511/2sA2r9X3s6)⚡
 
 ## Authors
 
@@ -92,3 +93,5 @@ Start the project
 ⚡[`Backend Recipe`](https://github.com/abdulnaim6/Be_recipe)⚡
 
 ⚡[`Frontend Recipe`](https://github.com/abdulnaim6/Fe_recipe)⚡
+
+⚡[`Demo Mama Recipe`](https://fe-recipe-sigma.vercel.app/)⚡
