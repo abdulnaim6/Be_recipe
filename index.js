@@ -2,6 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import router from "./src/router/user.router.js";
 import reciperouter from "./src/router/recipe.router.js";
+import saverouter from "./src/router/save.router.js";
+import likerouter from "./src/router/like.router.js";
 import cors from "cors";
 
 const app = express();
@@ -11,6 +13,8 @@ app.use(express.json());
 app.use(cors());
 app.use(router);
 app.use(reciperouter);
+app.use(saverouter);
+app.use(likerouter);
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {

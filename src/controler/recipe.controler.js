@@ -31,6 +31,21 @@ const recipeController = {
         ingrediens,
         video
       );
+      fetch("https://api.onesignal.com/notifications", {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          Authorization:
+            "Basic NmIyMjE2MzgtYTFmYS00ZThjLTgwZjQtNTY2NmYwMGQ5Yzcy",
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          app_id: "21555224-a28e-48c2-8704-32908794c768",
+          included_segments: ["Total Subscriptions"],
+          contents: { en: `${result.name_food}, there is a new recipe` },
+          headings: { en: "New Recipe" },
+        }),
+      });
       res.status(201).json({
         message: "Create recipe success",
         data: result,
@@ -116,11 +131,8 @@ const recipeController = {
       const limitValue = limit ? Number(limit) : 2;
       const offsetValue = pageValue === 1 ? 0 : (pageValue - 1) * limitValue;
 
-      // Total data
       const allData = await model.selectPaginate();
       const totalData = Number(allData.rows[0].total);
-
-      // Data untuk halaman saat ini
       const result = await model.paginations(limitValue, offsetValue);
 
       const pagination = {

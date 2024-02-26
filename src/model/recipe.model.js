@@ -55,7 +55,7 @@ const recipeModel = {
 
   searchByName: (keyword, sort) => {
     return new Promise((resolve, reject) => {
-      let query = `SELECT * FROM detail_recipe WHERE name_food LIKE '%${keyword}%'`;
+      let query = `SELECT * FROM detail_recipe WHERE name_food ILIKE '%${keyword}%'`;
       if (sort) {
         if (sort === "ASC") {
           query += " ORDER BY name_food ASC";
