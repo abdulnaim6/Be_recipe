@@ -63,10 +63,6 @@ const recipeController = {
   createRecipe: async function (req, res) {
     try {
       const users_id = req.headers["user-id"];
-      if (!users_id) {
-        return res.status(400).json({ message: "User ID is required" });
-      }
-
       const { name_food, ingrediens, video } = req.body;
       const picture = await cloudinary.uploader.upload(req.file.path);
       const imageUrl = picture.url;
@@ -144,11 +140,6 @@ const recipeController = {
       const { recipe_id } = req.params;
       const { name_food, ingrediens, video } = req.body;
       const users_id = req.headers["user-id"];
-
-      if (!users_id) {
-        return res.status(400).json({ message: "User ID is required" });
-      }
-
       const picture = await cloudinary.uploader.upload(req.file.path);
       const imageUrl = picture.url;
       console.log(picture);
