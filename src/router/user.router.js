@@ -11,7 +11,7 @@ router.post("/login", userControler.loginUser);
 router.post("/adduser", userControler.createUser);
 router.put("/updateuser/:users_id", upload, userControler.updateUser);
 router.delete("/deleteuser/:users_id", userControler.deleteUser);
-// router.get("/redis/:users_id", userControler.getByID);
+router.get("/redis/:users_id", userControler.getByID);
 router.get("/paginate", userControler.pagination);
 // router.get("/getredis/:users_id", hitbyID, userControler.getRedisID);
 

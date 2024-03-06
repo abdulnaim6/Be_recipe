@@ -140,17 +140,17 @@ const userController = {
     }
   },
 
-  // getByID: async (req, res) => {
-  //   try {
-  //     const id = req.params.users_id;
-  //     const result = await model.selectByID(id);
-  //     res.send({
-  //       data: result.rows,
-  //     });
-  //   } catch (err) {
-  //     res.json({ message: err.message });
-  //   }
-  // },
+  getByID: async (req, res) => {
+    try {
+      const id = req.params.users_id;
+      const result = await model.selectByID(id);
+      res.send({
+        data: result.rows,
+      });
+    } catch (err) {
+      res.json({ message: err.message });
+    }
+  },
   // getRedisID: async (req, res) => {
   //   try {
   //     const id = req.params.users_id;

@@ -42,7 +42,7 @@ const recipeController = {
         body: JSON.stringify({
           app_id: "21555224-a28e-48c2-8704-32908794c768",
           included_segments: ["Total Subscriptions"],
-          contents: { en: `${result.name_food}, there is a new recipe` },
+          contents: { en: "there is a new recipe" },
           headings: { en: "New Recipe" },
         }),
       });
