@@ -17,28 +17,64 @@ const recipeModel = {
     }
   },
 
-  postRecipe: function (name_food, picture, ingrediens, video) {
+  // postRecipe: function (name_food, picture, ingrediens, video) {
+  //   try {
+  //     return db.query(
+  //       `INSERT INTO detail_recipe (name_food, picture, ingrediens, video)
+  //        VALUES ($1, $2, $3, $4)`,
+  //       [name_food, picture, ingrediens, video]
+  //     );
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // },
+
+  postRecipe: function (users_id, name_food, picture, ingrediens, video) {
     try {
       return db.query(
-        `INSERT INTO detail_recipe (name_food, picture, ingrediens, video)
-         VALUES ($1, $2, $3, $4)`,
-        [name_food, picture, ingrediens, video]
+        `INSERT INTO detail_recipe (users_id, name_food, picture, ingrediens, video)
+         VALUES ($1, $2, $3, $4, $5)`,
+        [users_id, name_food, picture, ingrediens, video]
       );
     } catch (err) {
       console.log(err.message);
     }
   },
 
-  updateRecipes: function (recipe_id, name_food, picture, ingrediens, video) {
+  // updateRecipes: function (recipe_id, name_food, picture, ingrediens, video) {
+  //   try {
+  //     return db.query(
+  //       `UPDATE detail_recipe SET
+  //       name_food=$1,
+  //       picture=$2,
+  //       ingrediens=$3,
+  //       video=$4
+  //       WHERE recipe_id=$5`,
+  //       [name_food, picture, ingrediens, video, recipe_id]
+  //     );
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // },
+
+  updateRecipes: function (
+    recipe_id,
+    users_id,
+    name_food,
+    picture,
+    ingrediens,
+    video
+  ) {
     try {
       return db.query(
         `UPDATE detail_recipe SET 
-        name_food=$1, 
-        picture=$2, 
-        ingrediens=$3, 
-        video=$4
-        WHERE recipe_id=$5`,
-        [name_food, picture, ingrediens, video, recipe_id]
+        users_id=$1,
+        name_food=$2, 
+        picture=$3, 
+        ingrediens=$4, 
+        video=$5
+        WHERE recipe_id=$6`,
+        [users_id, name_food, picture, ingrediens, video, recipe_id]
       );
     } catch (err) {
       console.log(err.message);
