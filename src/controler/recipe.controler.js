@@ -171,7 +171,7 @@ const recipeController = {
       const users_id = req.params.users_id;
       const result = await recipeModel.getRecipetByID(users_id);
       res.send({
-        data: result.rows,
+        data: result,
       });
     } catch (err) {
       res.json({ message: err.message });
