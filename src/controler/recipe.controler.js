@@ -1,5 +1,6 @@
 import model from "../model/recipe.model.js";
 import cloudinary from "../helper/cloudinary.js";
+import recipeModel from "../model/recipe.model.js";
 
 const recipeController = {
   listRecipe: async function (req, res) {
@@ -157,6 +158,18 @@ const recipeController = {
     try {
       const id = req.params.recipe_id;
       const result = await model.selectByID(id);
+      res.send({
+        data: result.rows,
+      });
+    } catch (err) {
+      res.json({ message: err.message });
+    }
+  },
+
+  getRecipeByID: async (req, res) => {
+    try {
+      const users_id = req.params.users_id;
+      const result = await recipeModel.getRecipetByID(users_id);
       res.send({
         data: result.rows,
       });

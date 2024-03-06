@@ -111,6 +111,12 @@ const recipeModel = {
       );
     });
   },
+
+  getRecipetByID: (users_id) => {
+    return db.query("SELECT * FROM detail_recipe WHERE users_id = $1", [
+      users_id,
+    ]);
+  },
 };
 
 export default recipeModel;

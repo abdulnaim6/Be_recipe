@@ -13,4 +13,5 @@ router.delete("/deleterecipe/:recipe_id", recipeControler.deleteRecipe);
 router.get("/search", recipeControler.search);
 router.get("/paginate", recipeControler.pagination);
 router.get("/recipe/:recipe_id", recipeControler.getByID);
+router.get("/user/:users_id", recipeControler.getRecipeByID);
 export default router;
