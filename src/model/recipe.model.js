@@ -112,14 +112,8 @@ const recipeModel = {
     });
   },
 
-  // getRecipetByID: (users_id) => {
-  //   return db.query("SELECT * FROM detail_recipe WHERE users_id = $1", [
-  //     users_id,
-  //   ]);
-  // },
-
-  getRecipeByID: (users_id) => {
-    return db.any("SELECT * FROM detail_recipe WHERE users_id = $1", [
+  getRecipetByID: (users_id) => {
+    return db.query("SELECT * FROM detail_recipe WHERE users_id = $1", [
       users_id,
     ]);
   },

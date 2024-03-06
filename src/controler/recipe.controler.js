@@ -166,22 +166,10 @@ const recipeController = {
     }
   },
 
-  // getRecipeByID: async (req, res) => {
-  //   try {
-  //     const users_id = req.params.users_id;
-  //     const result = await recipeModel.getRecipetByID(users_id);
-  //     res.send({
-  //       data: result,
-  //     });
-  //   } catch (err) {
-  //     res.json({ message: err.message });
-  //   }
-  // },
-
   getRecipeByID: async (req, res) => {
     try {
       const users_id = req.params.users_id;
-      const result = await recipeModel.getRecipeByID(users_id);
+      const result = await recipeModel.getRecipetByID(users_id);
       res.send({
         data: result,
       });
