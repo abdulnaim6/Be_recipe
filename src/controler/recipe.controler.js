@@ -246,15 +246,32 @@ const recipeController = {
     }
   },
 
+  //   getRecipeByID: async (req, res) => {
+  //     try {
+  //       const users_id = req.params.users_id;
+  //       const result = await recipeModel.getRecipetByID(users_id);
+  //       res.send({
+  //         data: result,
+  //       });
+  //     } catch (err) {
+  //       res.json({ message: err.message });
+  //     }
+  //   },
+  // };
+
   getRecipeByID: async (req, res) => {
     try {
       const users_id = req.params.users_id;
       const result = await recipeModel.getRecipetByID(users_id);
-      res.send({
-        data: result,
-      });
+      if (result.rows.length > 0) {
+        res.send({
+          data: result.rows,
+        });
+      } else {
+        res.status(404).json({ message: "Data not found" });
+      }
     } catch (err) {
-      res.json({ message: err.message });
+      res.status(500).json({ message: err.message });
     }
   },
 };
